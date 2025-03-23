@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wikipedia Data Service</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; }
+    input[type="text"] { width: 300px; padding: 0.5em; }
+    select { padding: 0.5em; }
+    button { padding: 0.5em 1em; }
+    .result { margin-top: 1.5em; background-color: #f4f4f4; padding: 1em; border-radius: 5px; }
+    .error { color: red; }
+    img { max-width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+  <h1>Wikipedia Data Service</h1>
+  <form method="post">
+      <label for="page_title">Enter Wikipedia Page Title:</label><br>
+      <input type="text" id="page_title" name="page_title" required><br><br>
+
+      <label for="data_type">Select Data Type:</label><br>
+      <select id="data_type" name="data_type">
+          <option value="summary">Summary</option>
+          <option value="full">Full Article</option>
+          <option value="images">Main Image</option>
+      </select><br><br>
+
+      <button type="submit">Fetch Data</button>
+  </form>
+
+  {% if result %}
+    <div class="result">
+      {% if result.error %}
+        <p class="error">{{ result.error }}</p>
+      {% else %}
+        {% if request.form.get("data_type") == "images" %}
+          <h2>Main Image:</h2>
+          <img src="{{ result.content }}" alt="Wikipedia Image">
+        {% else %}
+          <h2>Content:</h2>
+          <div>{{ result.content|safe }}</div>
+        {% endif %}
+      {% endif %}
+    </div>
+  {% endif %}
+</body>
+</html>
