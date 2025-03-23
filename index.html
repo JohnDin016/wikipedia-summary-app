@@ -8,9 +8,8 @@
     input[type="text"] { width: 300px; padding: 0.5em; }
     select { padding: 0.5em; }
     button { padding: 0.5em 1em; }
-    .result { margin-top: 1.5em; background-color: #f4f4f4; padding: 1em; border-radius: 5px; }
+    .result { margin-top: 1.5em; background-color: #f9f9f9; padding: 1em; border: 1px solid #ccc; border-radius: 5px; }
     .error { color: red; }
-    img { max-width: 100%; height: auto; }
   </style>
 </head>
 <body>
@@ -23,7 +22,7 @@
       <select id="data_type" name="data_type">
           <option value="summary">Summary</option>
           <option value="full">Full Article</option>
-          <option value="images">Main Image</option>
+          <option value="image">Main Image</option>
       </select><br><br>
 
       <button type="submit">Fetch Data</button>
@@ -34,7 +33,7 @@
       {% if result.error %}
         <p class="error">{{ result.error }}</p>
       {% else %}
-        {% if request.form.get("data_type") == "images" %}
+        {% if request.form.get("data_type") == "image" %}
           <h2>Main Image:</h2>
           <img src="{{ result.content }}" alt="Wikipedia Image">
         {% else %}
