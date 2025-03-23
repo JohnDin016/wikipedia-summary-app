@@ -1,7 +1,23 @@
 from flask import Flask, request, render_template
 import requests
+import logging
 
 app = Flask(__name__)
+
+
+# Set up basic logging
+logging.basicConfig(level=logging.INFO)
+
+@app.route("/", methods=["GET", "HEAD"])
+def home():
+    try:
+        # Attempt to render the index.html template
+        return render_template("index.html")
+    except Exception as e:
+        # Log the error and return a 500 Internal Server Error
+        app.logger.error("Error rendering template: %s", e)
+        abort(500)
+
 
 
 def get_wikipedia_data(page_title, data_type):
@@ -75,10 +91,6 @@ def index():
             result = get_wikipedia_data(formatted_title, data_type)
 
     return render_template("index.html", result=result)
-
-@app.route("/", methods=["GET", "HEAD"])
-def home():
-    return render_template("index.html")
 
 
 if __name__ == "__main__":
